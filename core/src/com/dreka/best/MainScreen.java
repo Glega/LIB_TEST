@@ -10,6 +10,7 @@ public class MainScreen extends ApplicationAdapter {
 	SpriteBatch batch;
 	OrthographicCamera camera;
 	Texture img;
+	int jopa = 0;
 	
 	@Override
 	public void create () {
