@@ -2,82 +2,85 @@ package com.dreka.best;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+
+
 
 import java.util.Iterator;
 import java.util.Random;
 
 public class MainScreen extends ApplicationAdapter {
 	SpriteBatch batch;
-	OrthographicCamera camera;
-	Texture img;
-	Texture bear;
-	Rectangle bearObj;
-	int jopa = 0;
-	Texture frame;
-	Array<Rectangle> bears;
 	Random rnd;
-	
+	ShapeRenderer shapeRenderer;
+	Texture backGroundPicture;
+	Texture startButton;
+	BitmapFont font;
+	int screenWidth;
+	int screenHeight;
+	final String FONT_CHARS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+
+
+
+	public MainScreen(int screenWidth, int screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
+	}
+
 	@Override
 	public void create () {
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 400);
-
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		bear = new Texture("bear.png");
-		frame = new Texture("bearFrame.png");
-		rnd = new Random();
+		System.out.println(Gdx.files);
 
-		bears = new Array<>();
-		for(int i=0; i < 300; i++){
-			Rectangle br = new Rectangle();
-			br.height = 250;
-			br.width = rnd.nextInt(400) + 200;
-			br.x = rnd.nextInt(Gdx.graphics.getWidth() / 2) + 100;
-			br.y = rnd.nextInt(400);
-			bears.add(br);
-		}
-		System.out.println(Gdx.graphics.getWidth());
-		bearObj = new Rectangle();
-		bearObj.width = 250;
-		bearObj.height = 250;
-		bearObj.x = 250;
-		bearObj.y = 20;
+		final String FONT_PATH = "font.otf";
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_PATH));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.characters = FONT_CHARS;
+		parameter.size = 15;
+		parameter.color = Color.BLACK;
+		font = generator.generateFont(parameter);
+
+		shapeRenderer = new ShapeRenderer();
+		rnd = new Random();
+		backGroundPicture = new Texture("main_screen.png");
+		startButton = new Texture("start.png");
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		camera.update();
-		batch.begin();
-		for (Rectangle bear: bears){
-			batch.draw(frame, bear.x, bear.y);
-		}
-		batch.draw(frame, bearObj.x, bearObj.y);
-		batch.end();
-		bearObj.x -= 3;
+		ScreenUtils.clear(1, 1, 1, 1);
 
-		Iterator<Rectangle> iter = bears.iterator();
-		while (iter.hasNext()){
-			Rectangle br = iter.next();
-			br.x -= br.width * Gdx.graphics.getDeltaTime();
-			//System.out.println(Gdx.graphics.getDeltaTime());
-			if(br.x < -250) br.x = br.x = rnd.nextInt(500) + 800;
-		}
+		batch.begin();
+		batch.draw(backGroundPicture, 100, 100);
+		batch.draw(startButton, 220, 50);
+		font.draw(batch, "Привет and Hello", 100, 100);
+
+		batch.end();
+
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+		shapeRenderer.setColor(0, 1, 0, 1);
+		shapeRenderer.line(0,0, 100,100);
+		shapeRenderer.end();
+
+
 	}
 	
 	@Override
 	public void dispose () {
 		super.dispose();
 		batch.dispose();
-		img.dispose();
-		bear.dispose();
-		frame.dispose();
+		font.dispose();
+		startButton.dispose();
+		backGroundPicture.dispose();
 	}
 }
