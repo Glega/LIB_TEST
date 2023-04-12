@@ -1,6 +1,7 @@
 android {
     buildToolsVersion "33.0.0"
     compileSdkVersion 32
+    ndkVersion "25.2.9519653"
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -29,6 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 

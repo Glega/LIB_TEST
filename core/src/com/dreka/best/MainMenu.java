@@ -48,10 +48,10 @@ public class MainMenu implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_PATH));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = FONT_CHARS;
-        parameter.size = 15;
+        parameter.size = 34;
         parameter.color = Color.BLACK;
         font = generator.generateFont(parameter);
-
+        font.getData().setScale(2.5f);
         angle = 0;
 
         shapeRenderer = new ShapeRenderer();
@@ -60,7 +60,7 @@ public class MainMenu implements Screen {
         startButton = new Texture("start.png");
         textureRegion = new TextureRegion(startButton, 10, 10, 50, 70);
         vrotaru = new Sprite(backGroundPicture);
-        vrotaru.setPosition(100, 100);
+        vrotaru.setPosition(300, 300);
         crowTexture = new Texture("crow_see.png");
         crow = new Animation(new TextureRegion(crowTexture), 9, -1);
         branch = new Texture("branch.png");
@@ -82,7 +82,7 @@ public class MainMenu implements Screen {
         //batch.draw(startButton, 220, 50);
         crow.update(delta);
         //Вывод текста
-        font.draw(batch, "Тыкай в лес!!!", 250, 100);
+        font.draw(batch, "Тыкай в лес!!!", 300, 200);
 
         batch.end();
 
